@@ -3,32 +3,32 @@ import { ProduitsService } from './produits.service';
 import { CreateProduitDto } from './dto/create-produit.dto';
 import { UpdateProduitDto } from './dto/update-produit.dto';
 
-@Controller('produits')
+@Controller('api/v1/produits')
 export class ProduitsController {
   constructor(private readonly produitsService: ProduitsService) {}
 
   @Post()
-  create(@Body() createProduitDto: CreateProduitDto) {
+  async create(@Body() createProduitDto: CreateProduitDto) {
     return this.produitsService.create(createProduitDto);
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.produitsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.produitsService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProduitDto: UpdateProduitDto) {
+  async update(@Param('id') id: string, @Body() updateProduitDto: UpdateProduitDto) {
     return this.produitsService.update(+id, updateProduitDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.produitsService.remove(+id);
   }
 }
