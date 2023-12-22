@@ -1,5 +1,6 @@
 export declare class CreateProduitDto {
-    readonly nom: string;
-    readonly description: string;
-    readonly prix: number;
+    image?: string;
+    nom: string;
+    description: string;
+    prix: number;
 }

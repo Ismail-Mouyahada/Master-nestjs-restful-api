@@ -1,16 +1,31 @@
-import { IsNotEmpty, IsNumber, IsArray, ArrayNotEmpty, ArrayMinSize, Min } from 'class-validator';
+// create-commande.dto.ts
+
+import { IsArray, IsNotEmpty, IsNumber, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+
+class ProduitDto {
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  quantite: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  produitId: number;
+}
 
 export class CreateCommandeDto {
-    @IsNotEmpty()
-    @IsNumber()
-    utilisateurId: number;
-  
-    @IsArray()
-    @ArrayNotEmpty()
-    @ArrayMinSize(1)
-    produits: {
-      [x: string]: number;
-      produitId: number;
-      quantite: number;
-    }[];
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  utilisateurId: number;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => ProduitDto)
+  @ApiProperty({ type: ProduitDto, isArray: true })
+  produits: ProduitDto[];
 }

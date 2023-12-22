@@ -10,28 +10,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateUtilisateurDto = void 0;
-const class_validator_1 = require("class-validator");
+const class_validator_1 = require("@nestjs/class-validator");
+const swagger_1 = require("@nestjs/swagger");
+const class_validator_2 = require("class-validator");
 class CreateUtilisateurDto {
 }
 exports.CreateUtilisateurDto = CreateUtilisateurDto;
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_2.IsString)(),
+    (0, class_validator_2.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateUtilisateurDto.prototype, "nom", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_2.IsString)(),
+    (0, class_validator_2.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateUtilisateurDto.prototype, "prenom", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_2.IsEmail)(),
+    (0, class_validator_2.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateUtilisateurDto.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(8),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_2.IsString)(),
+    (0, class_validator_2.IsNotEmpty)(),
+    (0, class_validator_2.MinLength)(10),
     __metadata("design:type", String)
 ], CreateUtilisateurDto.prototype, "motDePasse", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_2.IsString)(),
+    (0, swagger_1.ApiHideProperty)(),
     __metadata("design:type", String)
 ], CreateUtilisateurDto.prototype, "role", void 0);
 //# sourceMappingURL=create-utilisateur.dto.js.map

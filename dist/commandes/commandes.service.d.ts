@@ -1,10 +1,24 @@
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateCommandeDto } from './dto/create-commande.dto';
-import { UpdateCommandeDto } from './dto/update-commande.dto';
 export declare class CommandesService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(createCommandeDto: CreateCommandeDto): Promise<{
+        produits: ({
+            produit: {
+                id: number;
+                image: string;
+                nom: string;
+                description: string;
+                prix: number;
+            };
+        } & {
+            id: number;
+            quantite: number;
+            produitId: number;
+            commandeId: number;
+        })[];
+    } & {
         id: number;
         date: Date;
         utilisateurId: number;
@@ -13,6 +27,7 @@ export declare class CommandesService {
         utilisateur: {
             id: number;
             nom: string;
+            prenom: string;
             email: string;
             motDePasse: string;
             role: string;
@@ -20,6 +35,7 @@ export declare class CommandesService {
         produits: ({
             produit: {
                 id: number;
+                image: string;
                 nom: string;
                 description: string;
                 prix: number;
@@ -39,6 +55,7 @@ export declare class CommandesService {
         utilisateur: {
             id: number;
             nom: string;
+            prenom: string;
             email: string;
             motDePasse: string;
             role: string;
@@ -46,6 +63,7 @@ export declare class CommandesService {
         produits: ({
             produit: {
                 id: number;
+                image: string;
                 nom: string;
                 description: string;
                 prix: number;
@@ -61,10 +79,11 @@ export declare class CommandesService {
         date: Date;
         utilisateurId: number;
     }>;
-    update(id: number, updateCommandeDto: UpdateCommandeDto): Promise<{
+    update(id: number, updateCommandeDto: CreateCommandeDto): Promise<{
         utilisateur: {
             id: number;
             nom: string;
+            prenom: string;
             email: string;
             motDePasse: string;
             role: string;
@@ -72,6 +91,7 @@ export declare class CommandesService {
         produits: ({
             produit: {
                 id: number;
+                image: string;
                 nom: string;
                 description: string;
                 prix: number;

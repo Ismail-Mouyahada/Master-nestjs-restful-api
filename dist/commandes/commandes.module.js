@@ -10,7 +10,7 @@ exports.CommandesModule = void 0;
 const common_1 = require("@nestjs/common");
 const commandes_service_1 = require("./commandes.service");
 const commandes_controller_1 = require("./commandes.controller");
-const prisma_service_1 = require("../prisma.service");
+const prisma_service_1 = require("../prisma/prisma.service");
 let CommandesModule = class CommandesModule {
 };
 exports.CommandesModule = CommandesModule;

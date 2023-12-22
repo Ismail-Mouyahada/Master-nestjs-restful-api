@@ -11,26 +11,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommandesService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma.service");
+const prisma_service_1 = require("../prisma/prisma.service");
 let CommandesService = class CommandesService {
     constructor(prisma) {
         this.prisma = prisma;
     }
     async create(createCommandeDto) {
         const { utilisateurId, produits } = createCommandeDto;
-        const utilisateur = await this.prisma.prisma.utilisateur.findUnique({
+        const utilisateur = await this.prisma.utilisateur.findUnique({
             where: { id: utilisateurId },
         });
         if (!utilisateur) {
             throw new common_1.NotFoundException('Utilisateur non trouvé');
         }
-        const produitsExistants = await this.prisma.prisma.produit.findMany({
-            where: { id: { in: produits.map((p) => p.produitId) } },
+        const produitsExistants = await this.prisma.produit.findMany({
+            where: {
+                id: { in: produits.map((p) => p.produitId) },
+            },
         });
-        if (produitsExistants.length !== produits.length) {
-            throw new common_1.NotFoundException('Certains produits n\'existent pas');
+        if (produitsExistants.length === 0) {
+            throw new common_1.NotFoundException("Certains produits n'existent pas");
         }
-        const commande = await this.prisma.prisma.commande.create({
+        const commande = await this.prisma.commande.create({
             data: {
                 utilisateur: { connect: { id: utilisateurId } },
                 produits: {
@@ -40,11 +42,18 @@ let CommandesService = class CommandesService {
                     })),
                 },
             },
+            include: {
+                produits: {
+                    include: {
+                        produit: true,
+                    },
+                },
+            },
         });
         return commande;
     }
     async findAll() {
-        return this.prisma.prisma.commande.findMany({
+        return this.prisma.commande.findMany({
             include: {
                 utilisateur: true,
                 produits: {
@@ -56,7 +65,7 @@ let CommandesService = class CommandesService {
         });
     }
     async findOne(id) {
-        return this.prisma.prisma.commande.findUnique({
+        const existingCommande = await this.prisma.commande.findUnique({
             where: { id },
             include: {
                 utilisateur: true,
@@ -67,35 +76,49 @@ let CommandesService = class CommandesService {
                 },
             },
         });
+        if (!existingCommande) {
+            throw new common_1.NotFoundException('Commande non trouvée');
+        }
+        return existingCommande;
     }
     async update(id, updateCommandeDto) {
         const { produits, utilisateurId } = updateCommandeDto;
-        const existingCommande = await this.prisma.prisma.commande.findUnique({
+        const existingCommande = await this.prisma.commande.findUnique({
             where: { id },
+            include: {
+                produits: {
+                    include: {
+                        produit: true,
+                    },
+                },
+            },
         });
         if (!existingCommande) {
             throw new common_1.NotFoundException('Commande non trouvée');
         }
-        const utilisateur = await this.prisma.prisma.utilisateur.findUnique({
+        const utilisateur = await this.prisma.utilisateur.findUnique({
             where: { id: utilisateurId },
         });
         if (!utilisateur) {
             throw new common_1.NotFoundException('Utilisateur non trouvé');
         }
-        const produitsExistants = await this.prisma.prisma.produit.findMany({
-            where: { id: { in: produits.map(p => p.produitId) } },
+        const produitsExistants = await this.prisma.produit.findMany({
+            where: { id: { in: produits.map((p) => p.produitId) } },
         });
         if (produitsExistants.length !== produits.length) {
-            throw new common_1.NotFoundException('Certains produits n\'existent pas');
+            throw new common_1.NotFoundException("Certains produits n'existent pas");
         }
-        const updatedCommande = await this.prisma.prisma.commande.update({
+        const updatedCommande = await this.prisma.commande.update({
             where: { id },
             data: {
                 utilisateur: { connect: { id: utilisateurId } },
                 produits: {
-                    upsert: produits.map(p => ({
-                        where: { id: p.id },
-                        create: { produit: { connect: { id: p.produitId } }, quantite: p.quantite },
+                    upsert: produits.map((p) => ({
+                        where: { id: p.produitId },
+                        create: {
+                            produit: { connect: { id: p.produitId } },
+                            quantite: p.quantite,
+                        },
                         update: { quantite: p.quantite },
                     })),
                 },
@@ -112,15 +135,16 @@ let CommandesService = class CommandesService {
         return updatedCommande;
     }
     async remove(id) {
-        const existingCommande = await this.prisma.prisma.commande.findUnique({
+        const existingCommande = await this.prisma.commande.findUnique({
             where: { id },
         });
         if (!existingCommande) {
             throw new common_1.NotFoundException('Commande non trouvée');
         }
-        return this.prisma.prisma.commande.delete({
+        const deletedCommande = await this.prisma.commande.delete({
             where: { id },
         });
+        return deletedCommande;
     }
 };
 exports.CommandesService = CommandesService;

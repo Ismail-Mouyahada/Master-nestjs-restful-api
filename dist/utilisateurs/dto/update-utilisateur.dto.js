@@ -13,27 +13,40 @@ exports.UpdateUtilisateurDto = void 0;
 const class_validator_1 = require("class-validator");
 const mapped_types_1 = require("@nestjs/mapped-types");
 const create_utilisateur_dto_1 = require("./create-utilisateur.dto");
+const swagger_1 = require("@nestjs/swagger");
 class UpdateUtilisateurDto extends (0, mapped_types_1.PartialType)(create_utilisateur_dto_1.CreateUtilisateurDto) {
 }
 exports.UpdateUtilisateurDto = UpdateUtilisateurDto;
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UpdateUtilisateurDto.prototype, "nom", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], UpdateUtilisateurDto.prototype, "prenom", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], UpdateUtilisateurDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.MinLength)(8),
+    (0, class_validator_1.MinLength)(10),
     __metadata("design:type", String)
 ], UpdateUtilisateurDto.prototype, "motDePasse", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiHideProperty)(),
     __metadata("design:type", String)
 ], UpdateUtilisateurDto.prototype, "role", void 0);
 //# sourceMappingURL=update-utilisateur.dto.js.map

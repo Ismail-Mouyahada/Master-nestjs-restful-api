@@ -1,11 +1,11 @@
-import { CreateCommandeDto } from './create-commande.dto';
-declare const UpdateCommandeDto_base: import("@nestjs/mapped-types").MappedType<Partial<CreateCommandeDto>>;
+import { CreateProduitDto } from 'src/produits/dto/create-produit.dto';
+declare const UpdateCommandeDto_base: import("@nestjs/common").Type<Partial<CreateProduitDto>>;
 export declare class UpdateCommandeDto extends UpdateCommandeDto_base {
-    readonly utilisateurId: number;
-    readonly produits: {
-        [x: string]: any;
-        produitId: number;
-        quantite: number;
-    }[];
+    quantite: number;
+    produitId: number;
+}
+export declare class CreateCommandeDto {
+    utilisateurId: number;
+    produits: CreateProduitDto[];
 }
 export {};

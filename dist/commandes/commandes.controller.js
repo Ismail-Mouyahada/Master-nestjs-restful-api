@@ -16,7 +16,6 @@ exports.CommandesController = void 0;
 const common_1 = require("@nestjs/common");
 const commandes_service_1 = require("./commandes.service");
 const create_commande_dto_1 = require("./dto/create-commande.dto");
-const update_commande_dto_1 = require("./dto/update-commande.dto");
 let CommandesController = class CommandesController {
     constructor(commandesService) {
         this.commandesService = commandesService;
@@ -47,7 +46,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommandesController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)("liste"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -65,7 +64,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_commande_dto_1.UpdateCommandeDto]),
+    __metadata("design:paramtypes", [String, create_commande_dto_1.CreateCommandeDto]),
     __metadata("design:returntype", Promise)
 ], CommandesController.prototype, "update", null);
 __decorate([

@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UtilisateursService {
+  [x: string]: any;
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createUtilisateurDto) {
@@ -20,7 +21,7 @@ export class UtilisateursService {
       const hashedmotDePasse = await this.hashPassword(motDePasse);
 
       // Save the user with the hashed password
-      const createdUtilisateur = await this.prisma.prisma.utilisateur.create({
+      const createdUtilisateur = await this.prisma.utilisateur.create({
         data: {
           ...utilisateurData,
           motDePasse: hashedmotDePasse,
@@ -43,21 +44,33 @@ export class UtilisateursService {
   }
 
   async findAll() {
-    const allUtilisateurs = await this.prisma.prisma.utilisateur.findMany();
+    const allUtilisateurs = await this.prisma.utilisateur.findMany();
     return allUtilisateurs;
   }
 
   async findOne(id: number) {
-    const utilisateur = await this.prisma.prisma.utilisateur.findUnique({
+    const utilisateur = await this.prisma.utilisateur.findUnique({
       where: { id },
     });
 
     return utilisateur;
   }
 
+  async findOneByEmail(email: string) {
+    const utilisateur = await this.prisma.utilisateur.findUnique({
+      where: { email }, // Use the email for the where condition
+    });
+
+    if (!utilisateur) {
+      return false;
+    }
+
+    return utilisateur;
+  }
+
   async update(id: number, updateUtilisateurDto) {
     // Vérifier si l'utilisateur existe
-    const existingUtilisateur = await this.prisma.prisma.utilisateur.findUnique({
+    const existingUtilisateur = await this.prisma.utilisateur.findUnique({
       where: { id },
     });
 
@@ -66,7 +79,7 @@ export class UtilisateursService {
     }
 
     // Mettre à jour l'utilisateur
-    const updatedUtilisateur = await this.prisma.prisma.utilisateur.update({
+    const updatedUtilisateur = await this.prisma.utilisateur.update({
       where: { id },
       data: updateUtilisateurDto,
     });
@@ -76,7 +89,7 @@ export class UtilisateursService {
 
   async remove(id: number) {
     // Vérifier si l'utilisateur existe
-    const existingUtilisateur = await this.prisma.prisma.utilisateur.findUnique({
+    const existingUtilisateur = await this.prisma.utilisateur.findUnique({
       where: { id },
     });
 
@@ -85,7 +98,7 @@ export class UtilisateursService {
     }
 
     // Supprimer l'utilisateur
-    const deletedUtilisateur = await this.prisma.prisma.utilisateur.delete({
+    const deletedUtilisateur = await this.prisma.utilisateur.delete({
       where: { id },
     });
 

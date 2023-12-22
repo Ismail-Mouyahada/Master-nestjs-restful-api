@@ -1,6 +1,7 @@
 export declare class CreateUtilisateurDto {
-    readonly nom: string;
-    readonly email: string;
-    readonly motDePasse: string;
-    readonly role?: string;
+    nom: string;
+    prenom: string;
+    email: string;
+    motDePasse: string;
+    role?: string;
 }

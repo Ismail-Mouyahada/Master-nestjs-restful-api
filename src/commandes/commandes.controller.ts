@@ -13,7 +13,7 @@ export class CommandesController {
     return this.commandesService.create(createCommandeDto);
   }
 
-  @Get()
+  @Get("liste")
   async findAll() {
     return this.commandesService.findAll();
   }
@@ -25,7 +25,7 @@ export class CommandesController {
 
   @Patch(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
-  async update(@Param('id') id: string, @Body() updateCommandeDto: UpdateCommandeDto) {
+  async update(@Param('id') id: string, @Body() updateCommandeDto: CreateCommandeDto) {
     return this.commandesService.update(+id, updateCommandeDto);
   }
 

@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
- 
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ProduitsService {
@@ -8,7 +7,7 @@ export class ProduitsService {
 
   async create(createProduitDto) {
     // Assuming your Prisma model is called 'Produit'
-    const createdProduit = await this.prisma.prisma.produit.create({
+    const createdProduit = await this.prisma.produit.create({
       data: createProduitDto,
     });
 
@@ -16,20 +15,24 @@ export class ProduitsService {
   }
 
   async findAll() {
-    const allProduits = await this.prisma.prisma.produit.findMany();
+    const allProduits = await this.prisma.produit.findMany();
     return allProduits;
   }
 
   async findOne(id: number) {
-    const produit = await this.prisma.prisma.produit.findUnique({
+    const produit = await this.prisma.produit.findUnique({
       where: { id },
     });
+
+    if (!produit) {
+      throw new NotFoundException('Produit non trouvé');
+    }
 
     return produit;
   }
 
   async update(id: number, updateProduitDto) {
-    const updatedProduit = await this.prisma.prisma.produit.update({
+    const updatedProduit = await this.prisma.produit.update({
       where: { id },
       data: updateProduitDto,
     });
@@ -38,7 +41,7 @@ export class ProduitsService {
   }
 
   async remove(id: number) {
-    const deletedProduit = await this.prisma.prisma.produit.delete({
+    const deletedProduit = await this.prisma.produit.delete({
       where: { id },
     });
 

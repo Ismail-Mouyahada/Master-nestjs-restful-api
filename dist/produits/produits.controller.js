@@ -46,7 +46,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)('liste'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)

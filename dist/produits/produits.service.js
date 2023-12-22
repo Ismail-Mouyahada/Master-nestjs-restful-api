@@ -11,36 +11,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProduitsService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma.service");
+const prisma_service_1 = require("../prisma/prisma.service");
 let ProduitsService = class ProduitsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
     async create(createProduitDto) {
-        const createdProduit = await this.prisma.prisma.produit.create({
+        const createdProduit = await this.prisma.produit.create({
             data: createProduitDto,
         });
         return createdProduit;
     }
     async findAll() {
-        const allProduits = await this.prisma.prisma.produit.findMany();
+        const allProduits = await this.prisma.produit.findMany();
         return allProduits;
     }
     async findOne(id) {
-        const produit = await this.prisma.prisma.produit.findUnique({
+        const produit = await this.prisma.produit.findUnique({
             where: { id },
         });
+        if (!produit) {
+            throw new common_1.NotFoundException('Produit non trouvé');
+        }
         return produit;
     }
     async update(id, updateProduitDto) {
-        const updatedProduit = await this.prisma.prisma.produit.update({
+        const updatedProduit = await this.prisma.produit.update({
             where: { id },
             data: updateProduitDto,
         });
         return updatedProduit;
     }
     async remove(id) {
-        const deletedProduit = await this.prisma.prisma.produit.delete({
+        const deletedProduit = await this.prisma.produit.delete({
             where: { id },
         });
         return deletedProduit;

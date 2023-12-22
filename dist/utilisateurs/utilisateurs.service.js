@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UtilisateursService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../prisma.service");
+const prisma_service_1 = require("../prisma/prisma.service");
 const bcrypt = require("bcrypt");
 let UtilisateursService = class UtilisateursService {
     constructor(prisma) {
@@ -24,7 +24,7 @@ let UtilisateursService = class UtilisateursService {
             }
             const { motDePasse, ...utilisateurData } = createUtilisateurDto;
             const hashedmotDePasse = await this.hashPassword(motDePasse);
-            const createdUtilisateur = await this.prisma.prisma.utilisateur.create({
+            const createdUtilisateur = await this.prisma.utilisateur.create({
                 data: {
                     ...utilisateurData,
                     motDePasse: hashedmotDePasse,
@@ -41,36 +41,45 @@ let UtilisateursService = class UtilisateursService {
         }
     }
     async findAll() {
-        const allUtilisateurs = await this.prisma.prisma.utilisateur.findMany();
+        const allUtilisateurs = await this.prisma.utilisateur.findMany();
         return allUtilisateurs;
     }
     async findOne(id) {
-        const utilisateur = await this.prisma.prisma.utilisateur.findUnique({
+        const utilisateur = await this.prisma.utilisateur.findUnique({
             where: { id },
         });
         return utilisateur;
     }
+    async findOneByEmail(email) {
+        const utilisateur = await this.prisma.utilisateur.findUnique({
+            where: { email },
+        });
+        if (!utilisateur) {
+            return false;
+        }
+        return utilisateur;
+    }
     async update(id, updateUtilisateurDto) {
-        const existingUtilisateur = await this.prisma.prisma.utilisateur.findUnique({
+        const existingUtilisateur = await this.prisma.utilisateur.findUnique({
             where: { id },
         });
         if (!existingUtilisateur) {
             throw new common_1.NotFoundException('Utilisateur non trouvé');
         }
-        const updatedUtilisateur = await this.prisma.prisma.utilisateur.update({
+        const updatedUtilisateur = await this.prisma.utilisateur.update({
             where: { id },
             data: updateUtilisateurDto,
         });
         return updatedUtilisateur;
     }
     async remove(id) {
-        const existingUtilisateur = await this.prisma.prisma.utilisateur.findUnique({
+        const existingUtilisateur = await this.prisma.utilisateur.findUnique({
             where: { id },
         });
         if (!existingUtilisateur) {
             throw new common_1.NotFoundException('Utilisateur non trouvé');
         }
-        const deletedUtilisateur = await this.prisma.prisma.utilisateur.delete({
+        const deletedUtilisateur = await this.prisma.utilisateur.delete({
             where: { id },
         });
         return deletedUtilisateur;

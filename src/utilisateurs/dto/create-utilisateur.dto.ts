@@ -1,19 +1,35 @@
+import { IsOptional } from '@nestjs/class-validator';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateUtilisateurDto {
+    @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    readonly nom: string;
+    nom: string;
   
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+    prenom: string;
+  
+    @ApiProperty()
     @IsEmail()
     @IsNotEmpty()
-    readonly email: string;
+    email: string;
   
+    @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    @MinLength(8)
-    readonly motDePasse: string;
+    @MinLength(10)
+    motDePasse: string;
   
+    @ApiProperty()
+    @IsOptional()
     @IsString()
-    readonly role?: string;
+    @ApiHideProperty()
+    role?: string;
+    
+   
 }
+ 

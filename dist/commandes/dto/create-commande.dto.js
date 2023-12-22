@@ -11,18 +11,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateCommandeDto = void 0;
 const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
+const swagger_1 = require("@nestjs/swagger");
+class ProduitDto {
+}
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Number)
+], ProduitDto.prototype, "quantite", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", Number)
+], ProduitDto.prototype, "produitId", void 0);
 class CreateCommandeDto {
 }
 exports.CreateCommandeDto = CreateCommandeDto;
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, swagger_1.ApiProperty)(),
     __metadata("design:type", Number)
 ], CreateCommandeDto.prototype, "utilisateurId", void 0);
 __decorate([
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ArrayNotEmpty)(),
-    (0, class_validator_1.ArrayMinSize)(1),
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.ValidateNested)({ each: true }),
+    (0, class_transformer_1.Type)(() => ProduitDto),
+    (0, swagger_1.ApiProperty)({ type: ProduitDto, isArray: true }),
     __metadata("design:type", Array)
 ], CreateCommandeDto.prototype, "produits", void 0);
 //# sourceMappingURL=create-commande.dto.js.map
