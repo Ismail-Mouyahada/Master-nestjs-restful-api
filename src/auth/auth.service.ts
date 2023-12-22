@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { ApiAcceptedResponse, ApiBody } from '@nestjs/swagger';
 import { ConnexionDto } from './dto/connexion-auth.dto';
 import { InscriptionDto } from './dto/Inscription-auth.dto';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -84,13 +85,18 @@ export class AuthService {
       // Hash the password
       const hashedPassword = await bcrypt.hash(inscriptionDto.motDePasse, 10);
 
-      // Register the user
-      await this.usersService.create({
+        // Assuming that PrismaClient is already imported
+    const prisma = new PrismaClient();
+
+    // Register the user
+    await prisma.utilisateur.create({
+      data: {
         nom: inscriptionDto.nom,
         prenom: inscriptionDto.prenom,
         email: inscriptionDto.email,
-        motDePasse: hashedPassword,
-      });
+        motDePasse: hashedPassword
+      }
+    });
 
       return {
         message: 'Inscription réussie',
