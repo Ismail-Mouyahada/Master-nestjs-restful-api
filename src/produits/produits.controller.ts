@@ -14,7 +14,6 @@ export class ProduitsController {
   
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin','gestionnaire')
-  @Get('liste')
   @Post()
   async create(@Body() createProduitDto: CreateProduitDto) {
     return this.produitsService.create(createProduitDto);
