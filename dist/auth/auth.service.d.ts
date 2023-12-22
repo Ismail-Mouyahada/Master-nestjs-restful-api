@@ -9,6 +9,14 @@ export declare class AuthService {
         accessToken: string;
         refreshToken: string;
     }>;
+    validateUserById(userId: string): Promise<{
+        id: number;
+        nom: string;
+        prenom: string;
+        email: string;
+        motDePasse: string;
+        role: string;
+    }>;
     inscription(inscriptionDto: InscriptionDto): Promise<{
         message: string;
         statusCode: number;

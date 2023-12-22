@@ -59,6 +59,15 @@ let UtilisateursService = class UtilisateursService {
         }
         return utilisateur;
     }
+    async findOneById(id) {
+        const utilisateur = await this.prisma.utilisateur.findUnique({
+            where: { id },
+        });
+        if (!utilisateur) {
+            return false;
+        }
+        return utilisateur;
+    }
     async update(id, updateUtilisateurDto) {
         const existingUtilisateur = await this.prisma.utilisateur.findUnique({
             where: { id },

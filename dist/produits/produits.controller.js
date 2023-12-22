@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const produits_service_1 = require("./produits.service");
 const create_produit_dto_1 = require("./dto/create-produit.dto");
 const update_produit_dto_1 = require("./dto/update-produit.dto");
+const roles_decorator_1 = require("../auth/roles/roles.decorator");
+const roles_guard_1 = require("../auth/middlwares/roles.guard");
+const jwt_auth_guard_1 = require("../auth/middlwares/jwt-auth.guard");
 let ProduitsController = class ProduitsController {
     constructor(produitsService) {
         this.produitsService = produitsService;
@@ -46,12 +49,17 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('client', 'gestionnaire'),
     (0, common_1.Get)('liste'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('client'),
+    (0, common_1.Get)('liste'),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -59,6 +67,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('client'),
+    (0, common_1.Get)('liste'),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -67,6 +78,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('client'),
+    (0, common_1.Get)('liste'),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

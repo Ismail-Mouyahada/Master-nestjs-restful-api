@@ -24,8 +24,6 @@ let AuthService = class AuthService {
     }
     async connexion(email, motDePasse) {
         try {
-            console.log('Email:', email);
-            console.log('Mot de Passe:', motDePasse);
             const user = await this.usersService.findOneByEmail(email);
             if (!user) {
                 throw new common_1.UnauthorizedException('Utilisateur non trouvé');
@@ -46,6 +44,13 @@ let AuthService = class AuthService {
             console.error(error);
             throw new common_1.UnauthorizedException('Erreur lors de l\'authentification');
         }
+    }
+    async validateUserById(userId) {
+        const user = await this.usersService.findOneById(parseInt(userId));
+        if (!user) {
+            throw new common_1.NotFoundException('Utilisateur non trouvé');
+        }
+        return user;
     }
     async inscription(inscriptionDto) {
         try {

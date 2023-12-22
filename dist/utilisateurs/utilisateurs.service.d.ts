@@ -35,6 +35,14 @@ export declare class UtilisateursService {
         motDePasse: string;
         role: string;
     }>;
+    findOneById(id: number): Promise<false | {
+        id: number;
+        nom: string;
+        prenom: string;
+        email: string;
+        motDePasse: string;
+        role: string;
+    }>;
     update(id: number, updateUtilisateurDto: any): Promise<{
         id: number;
         nom: string;

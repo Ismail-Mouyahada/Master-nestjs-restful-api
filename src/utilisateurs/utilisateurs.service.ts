@@ -67,6 +67,17 @@ export class UtilisateursService {
 
     return utilisateur;
   }
+  async findOneById(id: number) {
+    const utilisateur = await this.prisma.utilisateur.findUnique({
+      where: { id }, // Use the email for the where condition
+    });
+
+    if (!utilisateur) {
+      return false;
+    }
+
+    return utilisateur;
+  }
 
   async update(id: number, updateUtilisateurDto) {
     // Vérifier si l'utilisateur existe

@@ -18,8 +18,7 @@ export class AuthService {
   @ApiBody({ type: ConnexionDto })
   async connexion(email: string, motDePasse: string) {
     try {
-      console.log('Email:', email);
-      console.log('Mot de Passe:', motDePasse);
+  
 
       // Recherche de l'utilisateur par email
       const user = await this.usersService.findOneByEmail(email);
@@ -53,6 +52,18 @@ export class AuthService {
       // Utilisez une exception personnalisée pour l'authentification
       throw new UnauthorizedException('Erreur lors de l\'authentification');
     }
+  }
+
+
+  async validateUserById(userId: string) {
+    // Retrieve and validate the user by ID
+    const user = await this.usersService.findOneById(parseInt(userId));
+
+    if (!user) {
+      throw new NotFoundException('Utilisateur non trouvé');
+    }
+
+    return user;
   }
 
   @ApiAcceptedResponse({ description: 'L\'utilisateur a été enregistré avec succès.' })

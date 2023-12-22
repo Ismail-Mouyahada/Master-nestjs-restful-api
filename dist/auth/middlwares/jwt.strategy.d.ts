@@ -1,10 +1,16 @@
-import { Strategy } from "passport-local";
+import { Strategy } from 'passport-jwt';
+import { AuthService } from '../auth.service';
 declare const JwtStrategy_base: new (...args: any[]) => Strategy;
 export declare class JwtStrategy extends JwtStrategy_base {
-    constructor();
+    private readonly authService;
+    constructor(authService: AuthService);
     validate(payload: any): Promise<{
-        userId: any;
-        username: any;
+        id: number;
+        nom: string;
+        prenom: string;
+        email: string;
+        motDePasse: string;
+        role: string;
     }>;
 }
 export {};
