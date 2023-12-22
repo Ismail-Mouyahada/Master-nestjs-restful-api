@@ -11,19 +11,21 @@ import { JwtAuthGuard } from 'src/auth/middlwares/jwt-auth.guard';
 export class ProduitsController {
   constructor(private readonly produitsService: ProduitsService) {}
 
+  
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin','gestionnaire')
+  @Get('liste')
   @Post()
   async create(@Body() createProduitDto: CreateProduitDto) {
     return this.produitsService.create(createProduitDto);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin','gestionnaire','client')
+  
   @Get('liste')
   async findAll() {
     return this.produitsService.findAll();
   }
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin','gestionnaire','client')
+  
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.produitsService.findOne(+id);
