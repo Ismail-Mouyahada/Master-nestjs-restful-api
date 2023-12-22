@@ -6,20 +6,21 @@ import { ApiAcceptedResponse, ApiBody } from '@nestjs/swagger';
 import { ConnexionDto } from './dto/connexion-auth.dto';
 import { InscriptionDto } from './dto/Inscription-auth.dto';
 import { Prisma, PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UtilisateursService,
     private jwtService: JwtService,
-  ) {}
-
-  // Utilisez Swagger pour documenter l'API
-  @ApiAcceptedResponse({ description: 'L\'utilisateur a été authentifié avec succès.' })
-  @ApiBody({ type: ConnexionDto })
-  async connexion(email: string, motDePasse: string) {
-    try {
-  
+    ) {}
+    
+    // Utilisez Swagger pour documenter l'API
+    @ApiAcceptedResponse({ description: 'L\'utilisateur a été authentifié avec succès.' })
+    @ApiBody({ type: ConnexionDto })
+    async connexion(email: string, motDePasse: string) {
+      try {
+        
 
       // Recherche de l'utilisateur par email
       const user = await this.usersService.findOneByEmail(email);
@@ -86,7 +87,6 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(inscriptionDto.motDePasse, 10);
 
         // Assuming that PrismaClient is already imported
-    const prisma = new PrismaClient();
 
     // Register the user
     await prisma.utilisateur.create({

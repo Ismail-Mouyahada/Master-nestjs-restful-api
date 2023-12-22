@@ -6,6 +6,7 @@ import { Roles } from 'src/auth/roles/roles.decorator';
 import { RolesGuard } from 'src/auth/middlwares/roles.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from 'src/auth/middlwares/jwt-auth.guard';
+import { ApiOkResponse, ApiParam } from '@nestjs/swagger';
 
 @Controller('api/v1/produits')
 export class ProduitsController {
@@ -18,14 +19,15 @@ export class ProduitsController {
   async create(@Body() createProduitDto: CreateProduitDto) {
     return this.produitsService.create(createProduitDto);
   }
-
-  
   @Get('liste')
+  @ApiOkResponse({ description: 'Retourne la liste de tous les produits' })
   async findAll() {
     return this.produitsService.findAll();
   }
-  
+
   @Get(':id')
+  @ApiOkResponse({ description: 'Retourne un produit en fonction de l\'ID' })
+  @ApiParam({ name: 'id', description: 'ID du produit', type: 'string' })
   async findOne(@Param('id') id: string) {
     return this.produitsService.findOne(+id);
   }
@@ -38,7 +40,6 @@ export class ProduitsController {
   }
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin','gestionnaire')
-  @Get('liste')
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return this.produitsService.remove(+id);
