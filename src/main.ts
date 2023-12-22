@@ -11,7 +11,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.use(passport.initialize());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-  app.use(helmet());
+  app.use(helmet.xssFilter());
   const config = new DocumentBuilder()
     .setTitle('E-Commerce Nestjs REST API Documentation')
     .setDescription('The API E-Commerce Nestjs description')

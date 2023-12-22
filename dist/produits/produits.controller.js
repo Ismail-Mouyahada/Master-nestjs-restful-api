@@ -20,6 +20,7 @@ const update_produit_dto_1 = require("./dto/update-produit.dto");
 const roles_decorator_1 = require("../auth/roles/roles.decorator");
 const roles_guard_1 = require("../auth/middlwares/roles.guard");
 const jwt_auth_guard_1 = require("../auth/middlwares/jwt-auth.guard");
+const swagger_1 = require("@nestjs/swagger");
 let ProduitsController = class ProduitsController {
     constructor(produitsService) {
         this.produitsService = produitsService;
@@ -42,6 +43,8 @@ let ProduitsController = class ProduitsController {
 };
 exports.ProduitsController = ProduitsController;
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -49,18 +52,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "create", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)('client', 'gestionnaire'),
     (0, common_1.Get)('liste'),
+    (0, swagger_1.ApiOkResponse)({ description: 'Retourne la liste de tous les produits' }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ProduitsController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)('client'),
-    (0, common_1.Get)('liste'),
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOkResponse)({ description: 'Retourne un produit en fonction de l\'ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'ID du produit', type: 'string' }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -68,8 +69,7 @@ __decorate([
 ], ProduitsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)('client'),
-    (0, common_1.Get)('liste'),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -79,8 +79,7 @@ __decorate([
 ], ProduitsController.prototype, "update", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)('client'),
-    (0, common_1.Get)('liste'),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

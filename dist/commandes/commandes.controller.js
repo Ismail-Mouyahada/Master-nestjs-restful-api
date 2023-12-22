@@ -16,6 +16,9 @@ exports.CommandesController = void 0;
 const common_1 = require("@nestjs/common");
 const commandes_service_1 = require("./commandes.service");
 const create_commande_dto_1 = require("./dto/create-commande.dto");
+const jwt_auth_guard_1 = require("../auth/middlwares/jwt-auth.guard");
+const roles_guard_1 = require("../auth/middlwares/roles.guard");
+const roles_decorator_1 = require("../auth/roles/roles.decorator");
 let CommandesController = class CommandesController {
     constructor(commandesService) {
         this.commandesService = commandesService;
@@ -38,6 +41,8 @@ let CommandesController = class CommandesController {
 };
 exports.CommandesController = CommandesController;
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire', 'client'),
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ transform: true })),
     __param(0, (0, common_1.Body)()),
@@ -46,12 +51,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommandesController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Get)("liste"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CommandesController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -59,6 +68,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommandesController.prototype, "findOne", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Patch)(':id'),
     (0, common_1.UsePipes)(new common_1.ValidationPipe({ transform: true })),
     __param(0, (0, common_1.Param)('id')),
@@ -68,6 +79,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CommandesController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('admin', 'gestionnaire'),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

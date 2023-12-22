@@ -17,6 +17,8 @@ const bcrypt = require("bcrypt");
 const swagger_1 = require("@nestjs/swagger");
 const connexion_auth_dto_1 = require("./dto/connexion-auth.dto");
 const Inscription_auth_dto_1 = require("./dto/Inscription-auth.dto");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;
@@ -62,11 +64,13 @@ let AuthService = class AuthService {
                 };
             }
             const hashedPassword = await bcrypt.hash(inscriptionDto.motDePasse, 10);
-            await this.usersService.create({
-                nom: inscriptionDto.nom,
-                prenom: inscriptionDto.prenom,
-                email: inscriptionDto.email,
-                motDePasse: hashedPassword,
+            await prisma.utilisateur.create({
+                data: {
+                    nom: inscriptionDto.nom,
+                    prenom: inscriptionDto.prenom,
+                    email: inscriptionDto.email,
+                    motDePasse: hashedPassword
+                }
             });
             return {
                 message: 'Inscription réussie',
