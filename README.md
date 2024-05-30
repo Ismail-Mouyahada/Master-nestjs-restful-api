@@ -62,8 +62,5 @@ $ npm run test:cov
 
 ## Stay in touch
 
-- Author - [Ismail Mouyahada](https://kamilmysliwiec.com)
-- Swagger - [https://nestjs.com](https://nestjs.com/)
-- Postman - [@nestframework](https://twitter.com/nestframework)
-
+ 
  
